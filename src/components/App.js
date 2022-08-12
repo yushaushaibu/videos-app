@@ -10,7 +10,11 @@ import youtube from "../apis/youtube";
 class App extends React.Component {
     state = { videos: [], selectedVideo: null }
 
-    onTermSearch = async (term) => {
+    componentDidMount() {
+        this.onTermSubmit('NBA')
+    }
+
+    onTermSubmit = async (term) => {
         const response = await youtube.get('/search', {
             params: {
                 q: term
@@ -18,7 +22,10 @@ class App extends React.Component {
         })
 
         // console.log(response.data.items)
-        this.setState({ videos: response.data.items });
+        this.setState({ 
+            videos: response.data.items,
+            selectedVideo: response.data.items[0]
+         });
     }
 
     onVideoSelect = (video) => {
